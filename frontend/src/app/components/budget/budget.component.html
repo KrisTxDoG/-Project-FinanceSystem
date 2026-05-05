@@ -1,0 +1,85 @@
+<div class="budget-container">
+  <h1>Budget Management</h1>
+
+  <button class="btn btn-primary" (click)="toggleForm()">
+    {{ showForm ? 'Cancel' : 'Add Budget' }}
+  </button>
+
+  <form [formGroup]="budgetForm" (ngSubmit)="onSubmit()" *ngIf="showForm" class="budget-form">
+    <div class="form-group">
+      <label>Category:</label>
+      <input
+        type="text"
+        formControlName="category"
+        class="form-control"
+        [class.is-invalid]="submitted && f['category'].errors"
+        placeholder="e.g., Food, Transport, Entertainment"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Budget Limit:</label>
+      <input
+        type="number"
+        formControlName="limit"
+        class="form-control"
+        [class.is-invalid]="submitted && f['limit'].errors"
+        step="0.01"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Period:</label>
+      <select
+        formControlName="period"
+        class="form-control"
+        [class.is-invalid]="submitted && f['period'].errors"
+      >
+        <option value="DAILY">Daily</option>
+        <option value="WEEKLY">Weekly</option>
+        <option value="MONTHLY">Monthly</option>
+        <option value="YEARLY">Yearly</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Description (Optional):</label>
+      <textarea
+        formControlName="description"
+        class="form-control"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      {{ editingId ? 'Update' : 'Create' }} Budget
+    </button>
+  </form>
+
+  <div class="budgets-list">
+    <div *ngIf="budgets.length === 0" class="no-data">
+      No budgets created yet
+    </div>
+
+    <div *ngFor="let budget of budgets" class="budget-card">
+      <div class="budget-header">
+        <h3>{{ budget.category }}</h3>
+        <span class="period">{{ budget.period }}</span>
+      </div>
+
+      <div class="budget-limit">
+        <span>Budget Limit:</span>
+        <strong>{{ budget.limit | currency }}</strong>
+      </div>
+
+      <div *ngIf="budget.description" class="budget-description">
+        {{ budget.description }}
+      </div>
+
+      <div class="budget-actions">
+        <button (click)="editBudget(budget)" class="btn-small btn-edit">Edit</button>
+        <button (click)="deleteBudget(budget.id)" class="btn-small btn-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

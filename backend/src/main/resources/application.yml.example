@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: Personal Finance System Backend
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: false
+  
+  datasource:
+    url: jdbc:mysql://127.0.0.1:8889/FinanceSystem?useUnicode=yes&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Taipei
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: your_password_here
+  
+  mail:
+    host: smtp.gmail.com
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+jwt:
+  secret: your_jwt_secret_key_here_change_in_production
+  expiration: 86400000
+
+logging:
+  level:
+    root: INFO
+    com.financesystem: DEBUG

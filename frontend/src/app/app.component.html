@@ -1,0 +1,18 @@
+<div class="navbar">
+  <div class="navbar-content">
+
+    <div class="brand">
+      <img class="navbar-logo" src="assets/icon.png" alt="Logo" />
+      <h1>Personal Finance System</h1>
+    </div>
+
+    <nav *ngIf="isLoggedIn">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/transactions">Transactions</a>
+      <a routerLink="/budget">Budget</a>
+      <button (click)="logout()">Logout</button>
+    </nav>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

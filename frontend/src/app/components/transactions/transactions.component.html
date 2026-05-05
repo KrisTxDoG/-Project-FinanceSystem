@@ -1,0 +1,343 @@
+<div class="transactions-container">
+  <div class="header">
+    <h1>💰 我的交易紀錄</h1>
+  </div>
+
+  <!-- 月曆記錄區 -->
+  <div class="calendar-section">
+    <div class="calendar-panel">
+      <div class="calendar-toolbar">
+        <button type="button" class="calendar-nav-btn" (click)="previousMonth()" title="上個月">‹</button>
+        <div>
+          <h2>{{ currentMonthLabel }}</h2>
+          <p>點選日期查看或新增當日收支</p>
+        </div>
+        <button type="button" class="calendar-nav-btn" (click)="nextMonth()" title="下個月">›</button>
+      </div>
+
+      <div class="month-summary">
+        <div class="summary-item income">
+          <span>本月收入</span>
+          <strong>{{ monthlyIncome | currency:'TWD':'symbol':'1.0-0' }}</strong>
+        </div>
+        <div class="summary-item expense">
+          <span>本月支出</span>
+          <strong>{{ monthlyExpense | currency:'TWD':'symbol':'1.0-0' }}</strong>
+        </div>
+        <div class="summary-item balance" [class.negative]="monthlyIncome - monthlyExpense < 0">
+          <span>本月結餘</span>
+          <strong>{{ monthlyIncome - monthlyExpense | currency:'TWD':'symbol':'1.0-0' }}</strong>
+        </div>
+      </div>
+
+      <div class="calendar-grid week-header">
+        <div *ngFor="let day of weekDays" class="week-day">{{ day }}</div>
+      </div>
+
+      <div class="calendar-grid">
+        <button
+          *ngFor="let day of calendarDays"
+          type="button"
+          class="calendar-day"
+          [class.other-month]="!day.isCurrentMonth"
+          [class.today]="day.isToday"
+          [class.selected]="day.isSelected"
+          [class.has-records]="day.count > 0"
+          (click)="selectDate(day)"
+        >
+          <span class="day-number">{{ day.dayNumber }}</span>
+          <span class="day-total income" *ngIf="day.income > 0">+{{ day.income | number:'1.0-0' }}</span>
+          <span class="day-total expense" *ngIf="day.expense > 0">-{{ day.expense | number:'1.0-0' }}</span>
+          <span class="record-dot" *ngIf="day.count > 0"></span>
+        </button>
+      </div>
+
+      <button type="button" class="btn btn-secondary today-btn" (click)="goToToday()">回到今天</button>
+    </div>
+
+    <div class="selected-day-panel">
+      <div class="selected-day-header">
+        <div>
+          <span class="eyebrow">選取日期</span>
+          <h2>{{ selectedDateLabel }}</h2>
+        </div>
+        <div class="day-actions">
+          <button type="button" class="btn btn-primary expense-action" (click)="openTransactionForm('EXPENSE')">新增支出</button>
+          <button type="button" class="btn btn-primary income-action" (click)="openTransactionForm('INCOME')">新增收入</button>
+        </div>
+      </div>
+
+      <div class="day-summary">
+        <div>
+          <span>收入</span>
+          <strong class="income">{{ selectedDateIncome | currency:'TWD':'symbol':'1.0-0' }}</strong>
+        </div>
+        <div>
+          <span>支出</span>
+          <strong class="expense">{{ selectedDateExpense | currency:'TWD':'symbol':'1.0-0' }}</strong>
+        </div>
+        <div>
+          <span>結餘</span>
+          <strong [class.expense]="selectedDateBalance < 0" [class.income]="selectedDateBalance >= 0">
+            {{ selectedDateBalance | currency:'TWD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="day-records" *ngIf="selectedDateTransactions.length > 0">
+        <div
+          *ngFor="let transaction of selectedDateTransactions"
+          class="day-record"
+          [class.income-record]="transaction.type === 'INCOME'"
+        >
+          <span class="record-category">{{ getCategoryIcon(transaction.category) }}</span>
+          <div class="record-copy">
+            <strong>{{ transaction.description }}</strong>
+            <span>{{ transaction.type === 'INCOME' ? '收入' : '支出' }} · {{ transaction.category }}</span>
+          </div>
+          <strong class="record-amount">
+            {{ transaction.type === 'INCOME' ? '+' : '-' }}{{ transaction.amount | currency:'TWD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+      </div>
+
+      <div class="empty-day" *ngIf="selectedDateTransactions.length === 0">
+        <p>這天還沒有紀錄</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 快速記錄部分 -->
+  <div class="quick-entry-section" *ngIf="showQuickEntry && !showForm">
+    <div class="quick-entry-header">
+      <h2>⚡ 快速記錄支出</h2>
+      <p>{{ selectedDateLabel }} · 點選支出類別快速記錄</p>
+    </div>
+
+    <!-- 快速記錄表單 -->
+    <form [formGroup]="quickEntryForm" (ngSubmit)="onSubmitQuickEntry()" class="quick-form">
+      <div class="quick-input-group">
+        <div class="amount-input">
+          <label>金額</label>
+          <input
+            type="number"
+            formControlName="amount"
+            placeholder="0.00"
+            step="0.01"
+            min="0"
+            class="form-control"
+          />
+        </div>
+        <div class="description-input">
+          <label>備註 (選填)</label>
+          <input
+            type="text"
+            formControlName="description"
+            placeholder="例：午餐、加油..."
+            class="form-control"
+          />
+        </div>
+      </div>
+    </form>
+
+    <!-- 支出類別快速按鈕 -->
+    <div class="category-buttons">
+      <button
+        *ngFor="let category of expenseCategories"
+        type="button"
+        class="category-btn"
+        [style.borderColor]="category.color"
+        (click)="quickAddExpense(category); onSubmitQuickEntry()"
+        title="{{ category.label }}"
+      >
+        <span class="icon">{{ category.icon }}</span>
+        <span class="label">{{ category.value }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 完整表單部分 -->
+  <div class="form-section" #transactionFormSection>
+    <button class="btn btn-primary btn-toggle" (click)="showForm ? toggleForm() : openTransactionForm('EXPENSE')">
+      <span *ngIf="!showForm">📝 新增詳細交易</span>
+      <span *ngIf="showForm">❌ 取消</span>
+    </button>
+
+    <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" *ngIf="showForm" class="transaction-form">
+      <div class="form-context">
+        <span>{{ f['type'].value === 'INCOME' ? '新增收入' : '新增支出' }}</span>
+        <strong>{{ selectedDateLabel }}</strong>
+      </div>
+
+      <div class="form-alert error" *ngIf="formError">{{ formError }}</div>
+      <div class="form-alert success" *ngIf="formMessage">{{ formMessage }}</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="description">摘要說明 <span class="required">*</span></label>
+          <input
+            #descriptionInput
+            type="text"
+            id="description"
+            formControlName="description"
+            class="form-control"
+            placeholder="例如：Costco 購物"
+            [class.is-invalid]="submitted && f['description'].errors"
+          />
+          <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+            摘要說明不能為空
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="type">交易類型 <span class="required">*</span></label>
+          <select
+            id="type"
+            formControlName="type"
+            class="form-control"
+            [class.is-invalid]="submitted && f['type'].errors"
+            (change)="onTransactionTypeChange()"
+          >
+            <option value="EXPENSE">支出</option>
+            <option value="INCOME">收入</option>
+          </select>
+          <div *ngIf="submitted && f['type'].errors" class="invalid-feedback">
+            交易類型不能為空
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="amount">金額 <span class="required">*</span></label>
+          <input
+            type="number"
+            id="amount"
+            formControlName="amount"
+            class="form-control"
+            placeholder="0.00"
+            step="0.01"
+            min="0"
+            [class.is-invalid]="submitted && f['amount'].errors"
+          />
+          <div *ngIf="submitted && f['amount'].errors" class="invalid-feedback">
+            <span *ngIf="f['amount'].errors['required']">金額不能為空</span>
+            <span *ngIf="f['amount'].errors['min']">金額必須大於 0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="category">支出類別 <span class="required">*</span></label>
+          <select
+            id="category"
+            formControlName="category"
+            class="form-control"
+            [class.is-invalid]="submitted && f['category'].errors"
+          >
+            <option *ngFor="let cat of currentCategories" [value]="cat.value">
+              {{ cat.label }}
+            </option>
+          </select>
+          <div *ngIf="submitted && f['category'].errors" class="invalid-feedback">
+            支出類別不能為空
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="date">日期 <span class="required">*</span></label>
+          <input
+            type="date"
+            id="date"
+            formControlName="transactionDate"
+            class="form-control"
+            [class.is-invalid]="submitted && f['transactionDate'].errors"
+          />
+          <div *ngIf="submitted && f['transactionDate'].errors" class="invalid-feedback">
+            日期不能為空
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">備註 (選填)</label>
+        <textarea
+          id="notes"
+          formControlName="notes"
+          class="form-control"
+          rows="3"
+          placeholder="輸入額外備註..."
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+        <span *ngIf="isSaving">處理中...</span>
+        <span *ngIf="!isSaving && !editingId">✅ 新增交易</span>
+        <span *ngIf="!isSaving && editingId">🔄 更新交易</span>
+      </button>
+    </form>
+
+    <div class="form-alert success outside-form" *ngIf="!showForm && formMessage">{{ formMessage }}</div>
+  </div>
+
+  <!-- 交易列表 -->
+  <div class="transactions-list">
+    <h2>📋 交易列表</h2>
+    
+    <div *ngIf="transactions.length === 0" class="no-transactions">
+      <p>還沒有交易紀錄，開始記錄你的第一筆交易吧！</p>
+    </div>
+
+    <div *ngIf="transactions.length > 0" class="table-wrapper">
+      <table class="transactions-table">
+        <thead>
+          <tr>
+            <th>摘要</th>
+            <th>類型</th>
+            <th>金額</th>
+            <th>類別</th>
+            <th>日期</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            *ngFor="let transaction of transactions" 
+            [class.income-row]="transaction.type === 'INCOME'"
+            [class.expense-row]="transaction.type === 'EXPENSE'"
+          >
+            <td class="description">{{ transaction.description }}</td>
+            <td class="type">
+              <span class="badge" [class.badge-income]="transaction.type === 'INCOME'">
+                {{ transaction.type === 'INCOME' ? '收入' : '支出' }}
+              </span>
+            </td>
+            <td class="amount" [class.positive]="transaction.type === 'INCOME'">
+              <strong>
+                {{ (transaction.type === 'INCOME' ? '+' : '-') }}
+                {{ transaction.amount | currency:'TWD':'symbol':'1.0-2' }}
+              </strong>
+            </td>
+            <td class="category">{{ transaction.category }}</td>
+            <td class="date">{{ transaction.transactionDate | date:'yyyy-MM-dd' }}</td>
+            <td class="actions">
+              <button 
+                (click)="editTransaction(transaction)" 
+                class="btn-action btn-edit"
+                title="編輯"
+              >
+                ✏️
+              </button>
+              <button 
+                (click)="deleteTransaction(transaction.id)" 
+                class="btn-action btn-delete"
+                title="刪除"
+              >
+                🗑️
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
