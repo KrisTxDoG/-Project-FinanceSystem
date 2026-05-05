@@ -1,0 +1,169 @@
+// ========================
+// CSS Reset 和基礎樣式
+// ========================
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $background-light;
+  color: $text-primary;
+}
+
+// ========================
+// 標題樣式
+// ========================
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+  margin-bottom: $spacing-md;
+}
+
+h1 {
+  font-size: $font-size-2xl;
+}
+
+h2 {
+  font-size: $font-size-xl;
+}
+
+h3 {
+  font-size: $font-size-lg;
+}
+
+h4, h5, h6 {
+  font-size: $font-size-base;
+}
+
+// ========================
+// 段落和文本
+// ========================
+
+p {
+  margin-bottom: $spacing-md;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+a {
+  color: $secondary-color;
+  text-decoration: none;
+  transition: $transition-base;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ========================
+// 列表樣式
+// ========================
+
+ul, ol {
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-xl;
+}
+
+li {
+  margin-bottom: $spacing-sm;
+}
+
+// ========================
+// 表單元素
+// ========================
+
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input,
+select,
+textarea {
+  @include form-control();
+}
+
+// ========================
+// 按鈕重置
+// ========================
+
+button {
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+// ========================
+// 表格樣式
+// ========================
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: $spacing-lg;
+}
+
+th {
+  background-color: $background-light;
+  padding: $spacing-md;
+  text-align: left;
+  font-weight: $font-weight-bold;
+  border-bottom: 2px solid $border-color;
+}
+
+td {
+  padding: $spacing-md;
+  border-bottom: 1px solid $border-color;
+}
+
+// ========================
+// 代碼樣式
+// ========================
+
+code {
+  background-color: $background-light;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $border-radius-sm;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: #f4f4f4;
+  padding: $spacing-lg;
+  border-radius: $border-radius-md;
+  overflow-x: auto;
+  margin-bottom: $spacing-lg;
+
+  code {
+    background-color: transparent;
+    padding: 0;
+  }
+}
+
+// ========================
+// Angular 根組件
+// ========================
+
+app-root {
+  display: block;
+  min-height: 100vh;
+}

@@ -1,0 +1,174 @@
+// ========================
+// 響應式設計 Mixins
+// ========================
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == '2xl' {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
+}
+
+// ========================
+// 卡片樣式 Mixin
+// ========================
+
+@mixin card($padding: $spacing-lg, $shadow: $shadow-md, $radius: $border-radius-md) {
+  background: $white;
+  padding: $padding;
+  border-radius: $radius;
+  box-shadow: $shadow;
+}
+
+// ========================
+// 按鈕樣式 Mixin
+// ========================
+
+@mixin button(
+  $bg-color: $primary-color,
+  $text-color: $white,
+  $padding: $spacing-sm $spacing-lg,
+  $border-radius: $border-radius-sm
+) {
+  padding: $padding;
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  background: $bg-color;
+  color: $text-color;
+  transition: $transition-base;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ========================
+// 表單樣式 Mixin
+// ========================
+
+@mixin form-control(
+  $border-color: $border-color,
+  $focus-color: $primary-color,
+  $padding: $spacing-sm $spacing-md
+) {
+  width: 100%;
+  padding: $padding;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-sm;
+  font-size: $font-size-base;
+  font-family: inherit;
+  transition: $transition-base;
+
+  &:focus {
+    outline: none;
+    border-color: $focus-color;
+    box-shadow: 0 0 0 3px rgba($focus-color, 0.1);
+  }
+
+  &.is-invalid {
+    border-color: $error-color;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($error-color, 0.1);
+    }
+  }
+}
+
+// ========================
+// 柔和漸層 Mixin
+// ========================
+
+@mixin gradient($from-color, $to-color, $angle: 135deg) {
+  background: linear-gradient($angle, $from-color 0%, $to-color 100%);
+}
+
+// ========================
+// Flexbox 中心對齐 Mixin
+// ========================
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
+
+// ========================
+// 文字溢出處理 Mixin
+// ========================
+
+@mixin text-truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-truncate-lines($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// ========================
+// 容器寬度限制 Mixin
+// ========================
+
+@mixin container($max-width: $max-width-lg) {
+  max-width: $max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-md;
+  padding-right: $spacing-md;
+
+  @include respond-to('md') {
+    padding-left: $spacing-lg;
+    padding-right: $spacing-lg;
+  }
+}
+
+// ========================
+// Grid 網格 Mixin
+// ========================
+
+@mixin grid($columns: 1, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+@mixin grid-auto-fill($min-width: 300px, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax($min-width, 1fr));
+  gap: $gap;
+}
