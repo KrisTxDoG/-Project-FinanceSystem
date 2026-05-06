@@ -1,16 +1,19 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 1rem;
+  background: linear-gradient(135deg, $secondary-color 0%, #764ba2 100%);
+  padding: $spacing-md;
 }
 
 .login-card {
-  background: white;
-  padding: 3rem 2.5rem;
-  border-radius: 12px;
+  background: $white;
+  padding: $spacing-3xl $spacing-2xl;
+  border-radius: $border-radius-lg;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 450px;
@@ -30,54 +33,54 @@
 
 .login-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: $spacing-2xl;
 
   .logo-icon {
     font-size: 3.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: $spacing-md;
     display: block;
   }
 
   h1 {
-    margin: 0 0 0.5rem;
+    margin: 0 0 $spacing-sm;
     color: #333;
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
   }
 
   .subtitle {
-    color: #999;
+    color: $text-muted;
     font-size: 0.95rem;
     margin: 0;
   }
 }
 
 form {
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-lg;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: $spacing-lg;
 
   label {
     display: block;
-    margin-bottom: 0.6rem;
-    font-weight: 600;
+    margin-bottom: $spacing-sm;
+    font-weight: $font-weight-bold;
     color: #444;
     font-size: 0.95rem;
 
     .icon {
-      margin-right: 0.4rem;
+      margin-right: $spacing-xs;
     }
   }
 
   .form-control {
     width: 100%;
-    padding: 0.85rem 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    padding: $spacing-sm $spacing-md;
+    border: 2px solid $border-color;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-base;
+    transition: $transition-base;
     background-color: #f9f9f9;
 
     &::placeholder {
@@ -86,33 +89,33 @@ form {
 
     &:focus {
       outline: none;
-      border-color: #667eea;
-      background-color: white;
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      border-color: $secondary-color;
+      background-color: $white;
+      box-shadow: 0 0 0 4px rgba($secondary-color, 0.1);
     }
 
     &.is-invalid {
-      border-color: #e74c3c;
+      border-color: $error-color;
       background-color: #fff5f5;
 
       &:focus {
-        box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+        box-shadow: 0 0 0 4px rgba($error-color, 0.1);
       }
     }
   }
 
   .invalid-feedback {
-    color: #e74c3c;
-    font-size: 0.8rem;
-    margin-top: 0.4rem;
+    color: $error-color;
+    font-size: $font-size-sm;
+    margin-top: $spacing-xs;
     display: block;
   }
 }
 
 .alert {
-  padding: 0.85rem 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 6px;
+  padding: $spacing-sm $spacing-md;
+  margin-bottom: $spacing-lg;
+  border-radius: $border-radius-sm;
   background-color: #fff3cd;
   color: #664d03;
   border: 1px solid #ffecb5;
@@ -120,8 +123,8 @@ form {
   align-items: center;
 
   .alert-icon {
-    margin-right: 0.6rem;
-    font-size: 1.1rem;
+    margin-right: $spacing-sm;
+    font-size: $font-size-lg;
   }
 }
 
@@ -135,25 +138,25 @@ form {
   width: 100%;
   padding: 0.9rem;
   border: none;
-  border-radius: 6px;
+  border-radius: $border-radius-sm;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: $font-weight-bold;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: $transition-base;
   text-transform: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: $spacing-sm;
 
   &.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    margin-bottom: 1rem;
+    background: linear-gradient(135deg, $secondary-color 0%, #764ba2 100%);
+    color: $white;
+    margin-bottom: $spacing-md;
 
     &:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 10px 25px rgba($secondary-color, 0.4);
     }
 
     &:disabled {
@@ -164,14 +167,14 @@ form {
   }
 
   &.btn-secondary {
-    background-color: #f0f0f0;
+    background-color: $background-light;
     color: #333;
-    border: 2px solid #e0e0e0;
+    border: 2px solid $border-color;
 
     &:hover:not(:disabled) {
       background-color: #e8e8e8;
-      border-color: #667eea;
-      color: #667eea;
+      border-color: $secondary-color;
+      color: $secondary-color;
     }
 
     &:disabled {
@@ -185,16 +188,16 @@ form {
   }
 
   .icon {
-    font-size: 1.1rem;
+    font-size: $font-size-lg;
   }
 }
 
 .divider {
   text-align: center;
-  margin: 1.5rem 0;
+  margin: $spacing-lg 0;
   position: relative;
   color: #ccc;
-  font-size: 0.9rem;
+  font-size: $font-size-sm;
 
   &::before,
   &::after {
@@ -203,7 +206,7 @@ form {
     top: 50%;
     width: 48%;
     height: 1px;
-    background-color: #e0e0e0;
+    background-color: $border-color;
   }
 
   &::before {
@@ -215,19 +218,19 @@ form {
   }
 
   span {
-    background: white;
-    padding: 0 0.5rem;
+    background: $white;
+    padding: 0 $spacing-sm;
     position: relative;
   }
 }
 
 .footer {
   text-align: center;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
+  margin-top: $spacing-2xl;
+  padding-top: $spacing-lg;
   border-top: 1px solid #f0f0f0;
-  color: #999;
-  font-size: 0.85rem;
+  color: $text-muted;
+  font-size: $font-size-sm;
 
   p {
     margin: 0;
@@ -236,11 +239,11 @@ form {
 
 @media (max-width: 600px) {
   .login-card {
-    padding: 2rem 1.5rem;
+    padding: $spacing-2xl $spacing-lg;
   }
 
   .login-header h1 {
-    font-size: 1.5rem;
+    font-size: $font-size-xl;
   }
 
   .login-header .logo-icon {

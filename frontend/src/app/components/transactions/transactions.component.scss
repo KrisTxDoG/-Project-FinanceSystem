@@ -1,51 +1,54 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
 .transactions-container {
-  max-width: 1200px;
+  max-width: $max-width-xl;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: $spacing-2xl $spacing-lg;
 
   .header {
-    margin-bottom: 2.5rem;
+    margin-bottom: $spacing-2xl;
 
     h1 {
-      color: #2c3e50;
-      font-size: 2.2rem;
+      color: $text-primary;
+      font-size: $font-size-2xl;
       margin: 0;
-      font-weight: 700;
+      font-weight: $font-weight-extra-bold;
     }
   }
 
   .calendar-section {
     display: grid;
     grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-2xl;
 
     .calendar-panel,
     .selected-day-panel {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
+      background: $white;
+      border-radius: $border-radius-lg;
+      box-shadow: $shadow-md;
+      padding: $spacing-lg;
     }
 
     .calendar-toolbar {
       display: grid;
       grid-template-columns: 44px 1fr 44px;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
+      gap: $spacing-md;
+      margin-bottom: $spacing-lg;
       text-align: center;
 
       h2 {
         margin: 0;
-        color: #2c3e50;
-        font-size: 1.35rem;
+        color: $text-primary;
+        font-size: $font-size-xl;
       }
 
       p {
-        margin: 0.35rem 0 0;
-        color: #777;
-        font-size: 0.9rem;
+        margin: $spacing-sm 0 0;
+        color: $text-secondary;
+        font-size: $font-size-sm;
       }
     }
 
@@ -54,15 +57,16 @@
       height: 44px;
       border: none;
       border-radius: 50%;
-      background: #f2f4f8;
-      color: #2c3e50;
+      background: $background-light;
+      color: $text-primary;
       cursor: pointer;
       font-size: 2rem;
       line-height: 1;
-      transition: all 0.2s ease;
+      transition: $transition-fast;
 
       &:hover {
-        background: #e2e8f0;
+        background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+        color: $white;
         transform: translateY(-1px);
       }
     }
@@ -71,57 +75,57 @@
     .day-summary {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-lg;
     }
 
     .summary-item,
     .day-summary > div {
-      padding: 0.85rem;
-      border: 1px solid #edf0f5;
-      border-radius: 8px;
-      background: #fbfcfe;
+      padding: $spacing-sm;
+      border: 1px solid $border-color;
+      border-radius: $border-radius-md;
+      background: $info-light;
 
       span {
         display: block;
-        margin-bottom: 0.35rem;
-        color: #777;
-        font-size: 0.8rem;
+        margin-bottom: $spacing-sm;
+        color: $text-secondary;
+        font-size: $font-size-sm;
       }
 
       strong {
-        color: #2c3e50;
-        font-size: 1rem;
+        color: $text-primary;
+        font-size: $font-size-base;
       }
 
       &.income strong,
       .income {
-        color: #06a77d;
+        color: $success-light;
       }
 
       &.expense strong,
       .expense {
-        color: #d94732;
+        color: $error-color;
       }
 
       &.negative strong {
-        color: #d94732;
+        color: $error-color;
       }
     }
 
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 0.45rem;
+      gap: $spacing-xs;
     }
 
     .week-header {
-      margin-bottom: 0.5rem;
+      margin-bottom: $spacing-sm;
 
       .week-day {
-        color: #7a8594;
-        font-size: 0.8rem;
-        font-weight: 700;
+        color: $text-secondary;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-bold;
         text-align: center;
       }
     }
@@ -129,24 +133,24 @@
     .calendar-day {
       position: relative;
       min-height: 86px;
-      padding: 0.55rem;
-      border: 1px solid #e7ebf1;
-      border-radius: 8px;
-      background: #fff;
-      color: #2c3e50;
+      padding: $spacing-sm;
+      border: 1px solid $border-color;
+      border-radius: $border-radius-md;
+      background: $white;
+      color: $text-primary;
       cursor: pointer;
       text-align: left;
-      transition: all 0.2s ease;
+      transition: $transition-fast;
 
       &:hover {
-        border-color: #667eea;
-        box-shadow: 0 6px 16px rgba(102, 126, 234, 0.14);
+        border-color: $primary-color;
+        box-shadow: 0 6px 16px rgba($primary-color, 0.14);
         transform: translateY(-1px);
       }
 
       &.other-month {
-        background: #f8fafc;
-        color: #a0a8b3;
+        background: $background-light;
+        color: $text-muted;
       }
 
       &.today .day-number {
@@ -156,21 +160,21 @@
         width: 26px;
         height: 26px;
         border-radius: 50%;
-        background: #e8f8f5;
-        color: #047857;
-        font-weight: 700;
+        background: rgba($primary-color, 0.15);
+        color: $primary-dark;
+        font-weight: $font-weight-bold;
       }
 
       &.selected {
-        border-color: #667eea;
-        background: #f4f6ff;
-        box-shadow: inset 0 0 0 1px #667eea;
+        border-color: $primary-color;
+        background: rgba($primary-color, 0.08);
+        box-shadow: inset 0 0 0 1px $primary-color;
       }
 
       .day-number {
         display: block;
-        margin-bottom: 0.35rem;
-        font-weight: 700;
+        margin-bottom: $spacing-sm;
+        font-weight: $font-weight-bold;
       }
 
       .day-total {
@@ -182,27 +186,27 @@
         line-height: 1.35;
 
         &.income {
-          color: #06a77d;
+          color: $success-light;
         }
 
         &.expense {
-          color: #d94732;
+          color: $error-color;
         }
       }
 
       .record-dot {
         position: absolute;
-        right: 0.45rem;
-        top: 0.55rem;
+        right: $spacing-xs;
+        top: $spacing-sm;
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        background: #667eea;
+        background: $primary-color;
       }
     }
 
     .today-btn {
-      margin-top: 1rem;
+      margin-top: $spacing-lg;
     }
 
     .selected-day-panel {
@@ -215,65 +219,85 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
+      gap: $spacing-md;
+      margin-bottom: $spacing-lg;
 
       .eyebrow {
-        color: #777;
-        font-size: 0.8rem;
-        font-weight: 700;
+        color: $text-secondary;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-bold;
       }
 
       h2 {
-        margin: 0.25rem 0 0;
-        color: #2c3e50;
-        font-size: 1.25rem;
+        margin: $spacing-xs 0 0;
+        color: $text-primary;
+        font-size: $font-size-lg;
       }
     }
 
     .day-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: $spacing-sm;
       justify-content: flex-end;
 
       .btn {
-        padding: 0.65rem 0.9rem;
+        padding: $spacing-sm $spacing-md;
         white-space: nowrap;
       }
 
       .income-action {
-        background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
+        background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+        color: $white;
+        border: none;
+        cursor: pointer;
+        font-weight: $font-weight-bold;
+        transition: $transition-base;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba($primary-color, 0.4);
+        }
       }
 
       .expense-action {
         background: linear-gradient(135deg, #ff6b6b 0%, #fb8500 100%);
+        color: $white;
+        border: none;
+        cursor: pointer;
+        font-weight: $font-weight-bold;
+        transition: $transition-base;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
       }
     }
 
     .day-records {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 0.25rem;
+      gap: $spacing-sm;
+      margin-top: $spacing-xs;
     }
 
     .day-record {
       display: grid;
       grid-template-columns: 42px minmax(0, 1fr) auto;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.85rem;
-      border: 1px solid #f0e5e2;
-      border-radius: 8px;
-      background: #fff8f6;
+      gap: $spacing-sm;
+      padding: $spacing-sm;
+      border: 1px solid $border-color;
+      border-radius: $border-radius-md;
+      background: $white;
 
       &.income-record {
-        border-color: #d8f3ea;
-        background: #f5fffb;
+        border-color: $success-light;
+        background: rgba($primary-color, 0.05);
 
         .record-amount {
-          color: #06a77d;
+          color: $success-light;
         }
       }
 
@@ -283,9 +307,9 @@
         justify-content: center;
         width: 42px;
         height: 42px;
-        border-radius: 8px;
-        background: white;
-        font-size: 1.4rem;
+        border-radius: $border-radius-md;
+        background: $background-light;
+        font-size: $font-size-xl;
       }
 
       .record-copy {
@@ -300,19 +324,19 @@
         }
 
         strong {
-          color: #2c3e50;
+          color: $text-primary;
           font-size: 0.95rem;
         }
 
         span {
-          margin-top: 0.25rem;
-          color: #777;
-          font-size: 0.8rem;
+          margin-top: $spacing-xs;
+          color: $text-secondary;
+          font-size: $font-size-sm;
         }
       }
 
       .record-amount {
-        color: #d94732;
+        color: $error-color;
         white-space: nowrap;
       }
     }
@@ -336,21 +360,21 @@
 
   // 快速記錄部分
   .quick-entry-section {
-    background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
-    border-radius: 12px;
-    padding: 2rem;
-    margin-bottom: 2.5rem;
-    color: white;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+    border-radius: $border-radius-lg;
+    padding: $spacing-2xl;
+    margin-bottom: $spacing-2xl;
+    color: $white;
+    box-shadow: 0 10px 30px rgba($primary-color, 0.3);
 
     .quick-entry-header {
       text-align: center;
-      margin-bottom: 1.5rem;
+      margin-bottom: $spacing-lg;
 
       h2 {
-        margin: 0 0 0.5rem;
-        font-size: 1.5rem;
-        font-weight: 700;
+        margin: 0 0 $spacing-sm;
+        font-size: $font-size-lg;
+        font-weight: $font-weight-bold;
       }
 
       p {
@@ -361,15 +385,15 @@
     }
 
     .quick-form {
-      margin-bottom: 1.5rem;
+      margin-bottom: $spacing-lg;
       display: flex;
-      gap: 1rem;
+      gap: $spacing-md;
     }
 
     .quick-input-group {
       display: grid;
       grid-template-columns: 150px 1fr;
-      gap: 1rem;
+      gap: $spacing-md;
       width: 100%;
 
       .amount-input,
@@ -378,23 +402,23 @@
         flex-direction: column;
 
         label {
-          font-size: 0.85rem;
-          font-weight: 600;
-          margin-bottom: 0.4rem;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-bold;
+          margin-bottom: $spacing-xs;
           opacity: 0.9;
         }
 
         .form-control {
-          padding: 0.65rem 0.85rem;
+          padding: $spacing-sm $spacing-md;
           border: none;
-          border-radius: 6px;
-          background-color: rgba(255, 255, 255, 0.95);
+          border-radius: $border-radius-sm;
+          background-color: rgba($white, 0.95);
           font-size: 0.95rem;
 
           &:focus {
             outline: none;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            background-color: $white;
+            box-shadow: 0 0 0 3px rgba($white, 0.3);
           }
 
           &::placeholder {
@@ -413,16 +437,16 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.4rem;
-        padding: 0.75rem 0.5rem;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 8px;
-        background-color: rgba(255, 255, 255, 0.1);
-        color: white;
+        gap: $spacing-xs;
+        padding: $spacing-sm $spacing-xs;
+        border: 2px solid rgba($white, 0.3);
+        border-radius: $border-radius-md;
+        background-color: rgba($white, 0.1);
+        color: $white;
         cursor: pointer;
-        transition: all 0.3s ease;
-        font-size: 0.8rem;
-        font-weight: 600;
+        transition: $transition-base;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-bold;
         text-transform: uppercase;
 
         .icon {
@@ -434,7 +458,7 @@
         }
 
         &:hover {
-          background-color: rgba(255, 255, 255, 0.2);
+          background-color: rgba($white, 0.2);
           transform: translateY(-3px);
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
@@ -448,7 +472,7 @@
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
 
         .category-btn {
-          padding: 0.85rem;
+          padding: $spacing-md;
 
           .label {
             display: block;
@@ -460,19 +484,19 @@
 
   // 表單部分
   .form-section {
-    margin-bottom: 2.5rem;
+    margin-bottom: $spacing-2xl;
 
     .btn-toggle {
       width: auto;
-      margin-bottom: 1.5rem;
+      margin-bottom: $spacing-lg;
     }
 
     .transaction-form {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      margin-bottom: 1.5rem;
+      background: $white;
+      padding: $spacing-2xl;
+      border-radius: $border-radius-lg;
+      box-shadow: $shadow-md;
+      margin-bottom: $spacing-lg;
       animation: slideDown 0.3s ease-out;
 
       @keyframes slideDown {
@@ -490,33 +514,33 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-        padding: 0.85rem 1rem;
-        border: 1px solid #e7ebf1;
-        border-radius: 8px;
-        background: #fbfcfe;
+        gap: $spacing-md;
+        margin-bottom: $spacing-lg;
+        padding: $spacing-sm $spacing-md;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-md;
+        background: $background-light;
 
         span {
-          color: #667eea;
-          font-weight: 700;
+          color: $primary-color;
+          font-weight: $font-weight-bold;
         }
 
         strong {
-          color: #2c3e50;
+          color: $text-primary;
           font-size: 0.95rem;
         }
       }
 
       .form-alert {
-        margin-bottom: 1.25rem;
+        margin-bottom: $spacing-lg;
       }
 
       .form-row {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
+        gap: $spacing-lg;
+        margin-bottom: $spacing-lg;
       }
 
       .form-group {
@@ -524,37 +548,37 @@
         flex-direction: column;
 
         label {
-          font-weight: 600;
+          font-weight: $font-weight-bold;
           color: #444;
-          margin-bottom: 0.6rem;
+          margin-bottom: $spacing-sm;
           font-size: 0.95rem;
 
           .required {
-            color: #e74c3c;
+            color: $error-color;
           }
         }
 
         .form-control {
-          padding: 0.8rem 1rem;
-          border: 2px solid #e0e0e0;
-          border-radius: 6px;
+          padding: $spacing-sm $spacing-md;
+          border: 2px solid $border-color;
+          border-radius: $border-radius-sm;
           font-size: 0.95rem;
-          transition: all 0.3s ease;
+          transition: $transition-base;
           background-color: #f9f9f9;
 
           &:focus {
             outline: none;
-            border-color: #667eea;
-            background-color: white;
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            border-color: $primary-color;
+            background-color: $white;
+            box-shadow: 0 0 0 4px rgba($primary-color, 0.1);
           }
 
           &.is-invalid {
-            border-color: #e74c3c;
+            border-color: $error-color;
             background-color: #fff5f5;
 
             &:focus {
-              box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+              box-shadow: 0 0 0 4px rgba($error-color, 0.1);
             }
           }
 
@@ -571,25 +595,25 @@
         }
 
         .invalid-feedback {
-          color: #e74c3c;
-          font-size: 0.8rem;
-          margin-top: 0.4rem;
+          color: $error-color;
+          font-size: $font-size-sm;
+          margin-top: $spacing-xs;
           display: block;
         }
       }
 
       button {
-        padding: 0.9rem 2rem;
+        padding: 0.9rem $spacing-2xl;
         border: none;
-        border-radius: 6px;
+        border-radius: $border-radius-sm;
         font-size: 0.95rem;
-        font-weight: 600;
+        font-weight: $font-weight-bold;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: $transition-base;
 
         &:hover:not(:disabled) {
           transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 5px 15px rgba($primary-color, 0.3);
         }
 
         &:disabled {
@@ -601,10 +625,10 @@
     }
 
     .form-alert {
-      padding: 0.85rem 1rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $border-radius-md;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
 
       &.error {
         border: 1px solid #f2c2bc;
@@ -619,29 +643,29 @@
       }
 
       &.outside-form {
-        margin-top: 1rem;
+        margin-top: $spacing-lg;
       }
     }
   }
 
   // 按鈕樣式
   .btn {
-    padding: 0.8rem 1.5rem;
+    padding: $spacing-sm $spacing-lg;
     border: none;
-    border-radius: 6px;
+    border-radius: $border-radius-sm;
     cursor: pointer;
     font-size: 0.95rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
+    font-weight: $font-weight-bold;
+    transition: $transition-base;
     text-transform: none;
 
     &.btn-primary {
-      background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
-      color: white;
+      background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+      color: $white;
 
       &:hover:not(:disabled) {
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 8px 20px rgba($primary-color, 0.4);
       }
 
       &:disabled {
@@ -652,9 +676,9 @@
     }
 
     &.btn-secondary {
-      background-color: #f0f0f0;
+      background-color: $background-light;
       color: #333;
-      border: 2px solid #e0e0e0;
+      border: 2px solid $border-color;
 
       &:hover:not(:disabled) {
         background-color: #e8e8e8;
@@ -664,28 +688,28 @@
 
   // 交易列表
   .transactions-list {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: $white;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-md;
     overflow: hidden;
 
     h2 {
-      padding: 1.5rem;
+      padding: $spacing-lg;
       margin: 0;
-      background: #f9f9f9;
-      border-bottom: 2px solid #f0f0f0;
-      color: #2c3e50;
-      font-size: 1.2rem;
+      background: $background-light;
+      border-bottom: 2px solid $border-color;
+      color: $text-primary;
+      font-size: $font-size-lg;
     }
 
     .no-transactions {
-      padding: 3rem 1.5rem;
+      padding: $spacing-3xl $spacing-lg;
       text-align: center;
-      color: #999;
+      color: $text-muted;
 
       p {
         margin: 0;
-        font-size: 1rem;
+        font-size: $font-size-base;
       }
     }
 
@@ -698,15 +722,15 @@
       border-collapse: collapse;
 
       thead {
-        background-color: #f9f9f9;
-        border-bottom: 2px solid #e0e0e0;
+        background-color: $background-light;
+        border-bottom: 2px solid $border-color;
 
         th {
-          padding: 1rem 1.5rem;
+          padding: $spacing-md $spacing-lg;
           text-align: left;
-          font-weight: 700;
+          font-weight: $font-weight-bold;
           color: #444;
-          font-size: 0.9rem;
+          font-size: $font-size-sm;
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
@@ -714,35 +738,35 @@
 
       tbody {
         tr {
-          border-bottom: 1px solid #f0f0f0;
+          border-bottom: 1px solid $border-color;
           transition: background-color 0.2s ease;
 
           &:hover {
-            background-color: #f9f9f9;
+            background-color: $background-light;
           }
 
           &.income-row {
             td.amount {
-              color: #06d6a0;
-              font-weight: 600;
+              color: $primary-color;
+              font-weight: $font-weight-bold;
             }
           }
 
           &.expense-row {
             td.amount {
-              color: #e74c3c;
-              font-weight: 600;
+              color: $error-color;
+              font-weight: $font-weight-bold;
             }
           }
 
           td {
-            padding: 1rem 1.5rem;
+            padding: $spacing-md $spacing-lg;
             font-size: 0.95rem;
-            color: #555;
+            color: $text-secondary;
 
             &.description {
-              font-weight: 500;
-              color: #2c3e50;
+              font-weight: $font-weight-medium;
+              color: $text-primary;
               max-width: 200px;
               white-space: nowrap;
               overflow: hidden;
@@ -754,44 +778,44 @@
                 display: inline-block;
                 padding: 0.3rem 0.75rem;
                 border-radius: 20px;
-                font-size: 0.8rem;
-                font-weight: 600;
+                font-size: $font-size-sm;
+                font-weight: $font-weight-bold;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
 
                 &.badge-income {
-                  background-color: #e8f8f5;
-                  color: #06d6a0;
+                  background-color: rgba($primary-color, 0.15);
+                  color: $primary-color;
                 }
 
                 &:not(.badge-income) {
-                  background-color: #fadbd8;
-                  color: #e74c3c;
+                  background-color: rgba($error-color, 0.15);
+                  color: $error-color;
                 }
               }
             }
 
             &.category {
-              font-weight: 500;
+              font-weight: $font-weight-medium;
             }
 
             &.date {
-              color: #999;
-              font-size: 0.9rem;
+              color: $text-muted;
+              font-size: $font-size-sm;
             }
 
             &.actions {
               display: flex;
-              gap: 0.5rem;
+              gap: $spacing-sm;
               justify-content: center;
 
               .btn-action {
-                padding: 0.5rem;
+                padding: $spacing-xs;
                 border: none;
                 background: none;
                 cursor: pointer;
                 font-size: 1.1rem;
-                transition: all 0.3s ease;
+                transition: $transition-base;
                 opacity: 0.7;
 
                 &:hover {
@@ -801,13 +825,13 @@
 
                 &.btn-edit {
                   &:hover {
-                    color: #667eea;
+                    color: $primary-color;
                   }
                 }
 
                 &.btn-delete {
                   &:hover {
-                    color: #e74c3c;
+                    color: $error-color;
                   }
                 }
               }
@@ -821,14 +845,14 @@
 
 @media (max-width: 768px) {
   .transactions-container {
-    padding: 1rem;
+    padding: $spacing-md;
 
     .calendar-section {
       grid-template-columns: 1fr;
 
       .calendar-panel,
       .selected-day-panel {
-        padding: 1rem;
+        padding: $spacing-md;
       }
 
       .calendar-toolbar {
@@ -836,7 +860,7 @@
         gap: 0.6rem;
 
         h2 {
-          font-size: 1.1rem;
+          font-size: $font-size-lg;
         }
       }
 
@@ -891,7 +915,7 @@
     }
 
     .quick-entry-section {
-      padding: 1.5rem 1rem;
+      padding: $spacing-lg $spacing-md;
 
       .quick-form {
         flex-direction: column;
@@ -904,17 +928,17 @@
 
     .form-section {
       .transaction-form {
-        padding: 1.5rem 1rem;
+        padding: $spacing-lg $spacing-md;
 
         .form-context {
           align-items: flex-start;
           flex-direction: column;
-          gap: 0.35rem;
+          gap: $spacing-xs;
         }
 
         .form-row {
           grid-template-columns: 1fr;
-          gap: 1rem;
+          gap: $spacing-md;
         }
       }
     }
@@ -924,12 +948,12 @@
         font-size: 0.85rem;
 
         thead th {
-          padding: 0.75rem 1rem;
-          font-size: 0.8rem;
+          padding: 0.75rem $spacing-md;
+          font-size: $font-size-sm;
         }
 
         tbody td {
-          padding: 0.75rem 1rem;
+          padding: 0.75rem $spacing-md;
         }
       }
     }

@@ -1,64 +1,67 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
 .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
+  background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
 }
 
 .register-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background: $white;
+  padding: $spacing-2xl;
+  border-radius: $border-radius-md;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
 
   h2 {
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: $spacing-lg;
     color: #333;
   }
 
   .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: $spacing-md;
 
     label {
       display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: #555;
+      margin-bottom: $spacing-sm;
+      font-weight: $font-weight-medium;
+      color: $text-secondary;
     }
 
     .form-control {
       width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 1rem;
+      padding: $spacing-sm;
+      border: 1px solid $border-color;
+      border-radius: $border-radius-sm;
+      font-size: $font-size-base;
 
       &.is-invalid {
-        border-color: #e74c3c;
+        border-color: $error-color;
       }
 
       &:focus {
         outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
       }
     }
 
     .invalid-feedback {
-      color: #e74c3c;
+      color: $error-color;
       font-size: 0.875rem;
-      margin-top: 0.25rem;
+      margin-top: $spacing-xs;
     }
   }
 
   .alert {
-    padding: 0.75rem;
-    margin-bottom: 1rem;
-    border-radius: 4px;
+    padding: $spacing-sm;
+    margin-bottom: $spacing-md;
+    border-radius: $border-radius-sm;
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
@@ -66,24 +69,24 @@
 
   .btn {
     width: 100%;
-    padding: 0.75rem;
+    padding: $spacing-sm;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-weight: 500;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: $transition-base;
 
     &.btn-primary {
-      background-color: #667eea;
-      color: white;
+      background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+      color: $white;
 
       &:hover {
-        background-color: #5a67d8;
+        background: linear-gradient(135deg, $primary-dark 0%, #0b5b76 100%);
       }
 
       &:disabled {
-        background-color: #ccc;
+        background: #ccc;
         cursor: not-allowed;
       }
     }
@@ -91,11 +94,11 @@
 
   .login-link {
     text-align: center;
-    margin-top: 1rem;
-    color: #666;
+    margin-top: $spacing-md;
+    color: $text-secondary;
 
     a {
-      color: #667eea;
+      color: $primary-color;
       text-decoration: none;
 
       &:hover {

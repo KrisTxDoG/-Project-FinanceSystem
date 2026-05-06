@@ -8,6 +8,9 @@ Thumbs.db
 *.war
 *.ear
 *.log
+*.css
+*.css.map
+*.js.map
 target/
 out/
 dist/

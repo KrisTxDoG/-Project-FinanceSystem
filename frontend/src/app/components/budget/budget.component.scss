@@ -1,78 +1,81 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
 .budget-container {
-  max-width: 1000px;
+  max-width: $max-width-lg;
   margin: 0 auto;
-  padding: 2rem;
+  padding: $spacing-2xl;
 
   h1 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
+    color: $text-primary;
+    margin-bottom: $spacing-lg;
   }
 
   .btn {
-    padding: 0.75rem 1.5rem;
+    padding: $spacing-sm $spacing-lg;
     border: none;
-    border-radius: 4px;
+    border-radius: $border-radius-sm;
     cursor: pointer;
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
+    font-size: $font-size-base;
+    margin-bottom: $spacing-lg;
 
     &.btn-primary {
-      background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
-      color: white;
+      background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+      color: $white;
 
       &:hover {
-        background: linear-gradient(135deg, #06a379 0%, #0b5b76 100%);
+        background: linear-gradient(135deg, $primary-dark 0%, #0b5b76 100%);
       }
     }
   }
 
   .budget-form {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
+    background: $white;
+    padding: $spacing-2xl;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-sm;
+    margin-bottom: $spacing-2xl;
 
     .form-group {
-      margin-bottom: 1rem;
+      margin-bottom: $spacing-md;
 
       label {
         display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: #555;
+        margin-bottom: $spacing-sm;
+        font-weight: $font-weight-medium;
+        color: $text-secondary;
       }
 
       .form-control {
         width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 1rem;
+        padding: $spacing-sm;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-base;
 
         &.is-invalid {
-          border-color: #e74c3c;
+          border-color: $error-color;
         }
 
         &:focus {
           outline: none;
-          border-color: #7ed6a5;
-          box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
         }
       }
 
       textarea {
         width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 1rem;
+        padding: $spacing-sm;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-sm;
+        font-size: $font-size-base;
         font-family: inherit;
 
         &:focus {
           outline: none;
-          border-color: #7ed6a5;
-          box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
         }
       }
     }
@@ -81,97 +84,97 @@
   .budgets-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    gap: $spacing-lg;
 
     .no-data {
       text-align: center;
-      color: #999;
-      padding: 2rem;
+      color: $text-muted;
+      padding: $spacing-2xl;
       grid-column: 1 / -1;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      background: $white;
+      border-radius: $border-radius-md;
+      box-shadow: $shadow-sm;
     }
 
     .budget-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 1.5rem;
-      border-left: 4px solid #7ed6a5;
-      transition: transform 0.2s, box-shadow 0.2s;
+      background: $white;
+      border-radius: $border-radius-md;
+      box-shadow: $shadow-sm;
+      padding: $spacing-lg;
+      border-left: 4px solid $primary-color;
+      transition: $transition-fast;
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: $shadow-md;
       }
 
       .budget-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 1rem;
+        margin-bottom: $spacing-md;
 
         h3 {
           margin: 0;
-          color: #2c3e50;
-          font-size: 1.3rem;
+          color: $text-primary;
+          font-size: $font-size-lg;
         }
 
         .period {
-          background-color: #ecf0f1;
-          padding: 0.25rem 0.75rem;
+          background-color: $background-light;
+          padding: $spacing-xs $spacing-md;
           border-radius: 20px;
-          font-size: 0.875rem;
-          color: #555;
+          font-size: $font-size-sm;
+          color: $text-secondary;
         }
       }
 
       .budget-limit {
-        margin-bottom: 1rem;
-        padding: 1rem;
-        background-color: #f5f5f5;
-        border-radius: 4px;
+        margin-bottom: $spacing-md;
+        padding: $spacing-md;
+        background-color: $background-light;
+        border-radius: $border-radius-sm;
         display: flex;
         justify-content: space-between;
         align-items: center;
 
         strong {
-          color: #27ae60;
-          font-size: 1.3rem;
+          color: $success-color;
+          font-size: $font-size-lg;
         }
       }
 
       .budget-description {
-        margin-bottom: 1rem;
-        color: #666;
-        font-size: 0.9rem;
+        margin-bottom: $spacing-md;
+        color: $text-secondary;
+        font-size: $font-size-sm;
       }
 
       .budget-actions {
         display: flex;
-        gap: 0.5rem;
+        gap: $spacing-sm;
 
         .btn-small {
           flex: 1;
-          padding: 0.5rem;
+          padding: $spacing-sm;
           border: none;
-          border-radius: 4px;
+          border-radius: $border-radius-sm;
           cursor: pointer;
-          font-size: 0.875rem;
+          font-size: $font-size-sm;
 
           &.btn-edit {
-            background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
-            color: white;
+            background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+            color: $white;
 
             &:hover {
-              background: linear-gradient(135deg, #06a379 0%, #0b5b76 100%);
+              background: linear-gradient(135deg, $primary-dark 0%, #0b5b76 100%);
             }
           }
 
           &.btn-delete {
             background: linear-gradient(135deg, #ff6b6b 0%, #fb8500 100%);
-            color: white;
+            color: $white;
 
             &:hover {
               background: linear-gradient(135deg, #c45050 0%, #c06701 100%);
