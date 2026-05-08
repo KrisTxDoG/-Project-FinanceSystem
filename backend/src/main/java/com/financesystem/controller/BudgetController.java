@@ -1,6 +1,7 @@
 package com.financesystem.controller;
 
 import com.financesystem.dto.BudgetDTO;
+import com.financesystem.dto.BudgetAlertDTO;
 import com.financesystem.service.BudgetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,13 @@ public class BudgetController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         List<BudgetDTO> budgets = budgetService.getUserBudgets(username);
         return ResponseEntity.ok(budgets);
+    }
+
+    @GetMapping("/alerts")
+    public ResponseEntity<List<BudgetAlertDTO>> getBudgetAlerts() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<BudgetAlertDTO> alerts = budgetService.getBudgetAlerts(username);
+        return ResponseEntity.ok(alerts);
     }
 
     @PutMapping("/{id}")

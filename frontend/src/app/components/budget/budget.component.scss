@@ -9,6 +9,13 @@
   h1 {
     color: $text-primary;
     margin-bottom: $spacing-lg;
+    font-size: 2rem;
+  }
+
+  h2 {
+    color: $text-primary;
+    margin-bottom: $spacing-lg;
+    margin-top: $spacing-2xl;
   }
 
   .btn {
@@ -25,6 +32,127 @@
 
       &:hover {
         background: linear-gradient(135deg, $primary-dark 0%, #0b5b76 100%);
+      }
+    }
+  }
+
+  // 預算告警部分
+  .alerts-section {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe6b2 100%);
+    padding: $spacing-2xl;
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-2xl;
+    border-left: 5px solid #ffc107;
+
+    h2 {
+      color: #856404;
+      margin-top: 0;
+    }
+
+    .alerts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: $spacing-lg;
+
+      .alert-card {
+        background: $white;
+        border-radius: $border-radius-md;
+        padding: $spacing-lg;
+        box-shadow: $shadow-sm;
+
+        &.safe {
+          border-top: 4px solid #28a745;
+
+          .status-badge {
+            background: #d4edda;
+            color: #155724;
+          }
+        }
+
+        &.warning {
+          border-top: 4px solid #ffc107;
+
+          .status-badge {
+            background: #fff3cd;
+            color: #856404;
+          }
+        }
+
+        &.exceeded {
+          border-top: 4px solid #dc3545;
+
+          .status-badge {
+            background: #f8d7da;
+            color: #721c24;
+          }
+        }
+
+        .alert-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: $spacing-md;
+
+          h3 {
+            margin: 0;
+            font-size: $font-size-lg;
+            color: $text-primary;
+          }
+
+          .status-badge {
+            padding: $spacing-xs $spacing-md;
+            border-radius: 20px;
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+          }
+        }
+
+        .alert-content {
+          .amount-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: $spacing-md;
+            font-size: $font-size-sm;
+
+            span {
+              color: $text-secondary;
+
+              strong {
+                color: $text-primary;
+                font-size: $font-size-base;
+              }
+            }
+          }
+
+          .progress-container {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: $spacing-md;
+            overflow: hidden;
+
+            .progress-bar {
+              height: 100%;
+              background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+              transition: all 0.3s ease;
+
+              &.warning {
+                background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
+              }
+
+              &.exceeded {
+                background: linear-gradient(90deg, #dc3545 0%, #c82333 100%);
+              }
+            }
+          }
+
+          .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: $font-size-sm;
+            color: $text-secondary;
+          }
+        }
       }
     }
   }
@@ -82,6 +210,10 @@
   }
 
   .budgets-list {
+    h2 {
+      margin-top: 0;
+    }
+
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: $spacing-lg;

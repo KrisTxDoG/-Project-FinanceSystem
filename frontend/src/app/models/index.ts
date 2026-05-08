@@ -20,6 +20,7 @@ export interface Transaction {
   category: string;
   notes?: string;
   transactionDate: Date | string;
+  createdAt?: Date | string;
 }
 
 export interface Budget {

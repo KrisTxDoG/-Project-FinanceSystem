@@ -1,6 +1,17 @@
 <div class="transactions-container">
   <div class="header">
     <h1>💰 我的交易紀錄</h1>
+    <div class="export-buttons">
+      <button type="button" class="btn btn-export" (click)="exportToCSV()" title="導出所有交易為 CSV">
+        📥 導出 CSV
+      </button>
+      <button type="button" class="btn btn-export" (click)="exportToJSON()" title="導出所有交易為 JSON">
+        📥 導出 JSON
+      </button>
+      <button type="button" class="btn btn-export" (click)="exportMonthlyToCSV()" title="導出本月交易">
+        📅 導出本月
+      </button>
+    </div>
   </div>
 
   <!-- 月曆記錄區 -->

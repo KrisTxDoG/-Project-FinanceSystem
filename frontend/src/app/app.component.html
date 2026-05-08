@@ -10,6 +10,12 @@
       <a routerLink="/dashboard">Dashboard</a>
       <a routerLink="/transactions">Transactions</a>
       <a routerLink="/budget">Budget</a>
+      <a routerLink="/analytics">Analytics</a>
+      <select [(ngModel)]="selectedCurrency" (change)="onCurrencyChange()" class="currency-selector">
+        <option *ngFor="let currency of currencies" [value]="currency.code">
+          {{ currency.symbol }} {{ currency.code }}
+        </option>
+      </select>
       <button (click)="logout()">Logout</button>
     </nav>
   </div>

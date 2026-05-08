@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BudgetService } from '../../services/budget.service';
+import { BudgetAlertService, BudgetAlert } from '../../services/budget-alert.service';
 import { Budget } from '../../models/index';
 
 @Component({
@@ -10,6 +11,7 @@ import { Budget } from '../../models/index';
 })
 export class BudgetComponent implements OnInit {
   budgets: Budget[] = [];
+  budgetAlerts: BudgetAlert[] = [];
   budgetForm: FormGroup;
   showForm = false;
   submitted = false;
@@ -17,7 +19,8 @@ export class BudgetComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private budgetService: BudgetService
+    private budgetService: BudgetService,
+    private budgetAlertService: BudgetAlertService
   ) {
     this.budgetForm = this.formBuilder.group({
       category: ['', Validators.required],
@@ -29,6 +32,7 @@ export class BudgetComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadBudgets();
+    this.loadBudgetAlerts();
   }
 
   loadBudgets(): void {
@@ -37,6 +41,15 @@ export class BudgetComponent implements OnInit {
         this.budgets = budgets;
       },
       error: (err) => console.error('Failed to load budgets', err)
+    });
+  }
+
+  loadBudgetAlerts(): void {
+    this.budgetAlertService.getBudgetAlerts().subscribe({
+      next: (alerts) => {
+        this.budgetAlerts = alerts;
+      },
+      error: (err) => console.error('Failed to load budget alerts', err)
     });
   }
 
@@ -60,6 +73,7 @@ export class BudgetComponent implements OnInit {
       this.budgetService.updateBudget(this.editingId, budget).subscribe({
         next: () => {
           this.loadBudgets();
+          this.loadBudgetAlerts();
           this.toggleForm();
           this.submitted = false;
         },
@@ -69,6 +83,7 @@ export class BudgetComponent implements OnInit {
       this.budgetService.createBudget(budget).subscribe({
         next: () => {
           this.loadBudgets();
+          this.loadBudgetAlerts();
           this.toggleForm();
           this.submitted = false;
         },
@@ -87,9 +102,25 @@ export class BudgetComponent implements OnInit {
   deleteBudget(id: number | undefined): void {
     if (id && confirm('Are you sure?')) {
       this.budgetService.deleteBudget(id).subscribe({
-        next: () => this.loadBudgets(),
+        next: () => {
+          this.loadBudgets();
+          this.loadBudgetAlerts();
+        },
         error: (err) => console.error('Failed to delete budget', err)
       });
+    }
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'safe':
+        return 'safe';
+      case 'warning':
+        return 'warning';
+      case 'exceeded':
+        return 'exceeded';
+      default:
+        return '';
     }
   }
 

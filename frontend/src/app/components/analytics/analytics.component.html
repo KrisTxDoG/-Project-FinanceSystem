@@ -1,0 +1,72 @@
+<div class="analytics-container">
+  <div class="analytics-header">
+    <h1>📊 數據分析</h1>
+    <div class="month-selector">
+      <button (click)="previousMonth()" class="nav-btn">←</button>
+      <span class="month-display">{{ currentYear }}-{{ currentMonth | number: '2.0-0' }}</span>
+      <button (click)="nextMonth()" class="nav-btn">→</button>
+    </div>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>加載中...</p>
+  </div>
+
+  <div *ngIf="!isLoading && statistics" class="analytics-content">
+    <!-- 統計卡片 -->
+    <div class="summary-cards">
+      <div class="card income">
+        <div class="card-icon">💰</div>
+        <div class="card-content">
+          <h3>本月收入</h3>
+          <p>¥{{ statistics.totalIncome | number: '1.2-2' }}</p>
+        </div>
+      </div>
+      <div class="card expense">
+        <div class="card-icon">💸</div>
+        <div class="card-content">
+          <h3>本月支出</h3>
+          <p>¥{{ statistics.totalExpense | number: '1.2-2' }}</p>
+        </div>
+      </div>
+      <div class="card net" [class.positive]="statistics.netIncome >= 0">
+        <div class="card-icon">📈</div>
+        <div class="card-content">
+          <h3>淨收入</h3>
+          <p>¥{{ statistics.netIncome | number: '1.2-2' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 圖表區域 -->
+    <div class="charts-grid">
+      <!-- 收入支出對比 -->
+      <div class="chart-container">
+        <canvas baseChart
+          [data]="incomeExpenseChartData"
+          [options]="incomeExpenseChartOptions"
+          type="bar">
+        </canvas>
+      </div>
+
+      <!-- 支出分類 -->
+      <div class="chart-container">
+        <canvas baseChart
+          [data]="categoryChartData"
+          [options]="categoryChartOptions"
+          type="doughnut">
+        </canvas>
+      </div>
+    </div>
+
+    <!-- 月度趨勢 -->
+    <div class="chart-container full-width">
+      <canvas baseChart
+        [data]="monthlyChartData"
+        [options]="monthlyChartOptions"
+        type="line">
+      </canvas>
+    </div>
+  </div>
+</div>
+

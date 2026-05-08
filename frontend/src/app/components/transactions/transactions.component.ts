@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionService } from '../../services/transaction.service';
+import { ExportService } from '../../services/export.service';
 import { Transaction } from '../../models/index';
 
 interface ExpenseCategory {
@@ -53,7 +54,7 @@ export class TransactionsComponent implements OnInit {
     { value: 'UTILITIES', label: '💡 水電費', icon: '💡', color: '#ffe66d' },
     { value: 'HEALTHCARE', label: '🏥 醫療', icon: '🏥', color: '#a8e6cf' },
     { value: 'EDUCATION', label: '📚 教育', icon: '📚', color: '#dda15e' },
-    { value: 'INSURANCE', label: '🛡️ 保險', icon: '🛡️', color: '#9d84b7' },
+    { value: 'INSURANCE', label: '🛡️ 保險', icon: '🛡️', color: '#ffffff' },
     { value: 'RENT', label: '🏠 房租', icon: '🏠', color: '#fb8500' },
     { value: 'SALARY', label: '💰 薪資', icon: '💰', color: '#06d6a0' },
     { value: 'INVESTMENT', label: '📈 投資', icon: '📈', color: '#118ab2' },
@@ -117,7 +118,8 @@ export class TransactionsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private exportService: ExportService
   ) {
     this.transactionForm = this.formBuilder.group({
       description: ['', Validators.required],
@@ -436,6 +438,31 @@ export class TransactionsComponent implements OnInit {
       });
       this.descriptionInput?.nativeElement.focus();
     });
+  }
+
+  // 導出功能
+  exportToCSV(): void {
+    const filename = `transactions_${this.toDateInputValue(new Date())}.csv`;
+    this.exportService.exportTransactionsToCSV(this.transactions, filename);
+  }
+
+  exportToJSON(): void {
+    const filename = `transactions_${this.toDateInputValue(new Date())}.json`;
+    this.exportService.exportTransactionsToJSON(this.transactions, filename);
+  }
+
+  exportSelectedDateToCSV(): void {
+    const filename = `transactions_${this.toDateInputValue(this.selectedDate)}.csv`;
+    this.exportService.exportTransactionsToCSV(this.selectedDateTransactions, filename);
+  }
+
+  exportMonthlyToCSV(): void {
+    const monthlyTransactions = this.transactions.filter(t =>
+      this.isSameMonth(new Date(t.transactionDate), this.currentMonth)
+    );
+    const monthYear = `${this.currentMonth.getFullYear()}-${String(this.currentMonth.getMonth() + 1).padStart(2, '0')}`;
+    const filename = `transactions_${monthYear}.csv`;
+    this.exportService.exportTransactionsToCSV(monthlyTransactions, filename);
   }
 
   get f() { return this.transactionForm.controls; }

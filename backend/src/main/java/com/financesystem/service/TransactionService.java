@@ -1,6 +1,7 @@
 package com.financesystem.service;
 
 import com.financesystem.dto.TransactionDTO;
+import com.financesystem.dto.StatisticsDTO;
 import com.financesystem.entity.ExpenseCategory;
 import com.financesystem.entity.Transaction;
 import com.financesystem.entity.TransactionType;
@@ -10,8 +11,10 @@ import com.financesystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.YearMonth;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -116,5 +119,84 @@ public class TransactionService {
                 transaction.getTransactionDate(),
                 transaction.getCreatedAt()
         );
+    }
+
+    public StatisticsDTO getStatistics(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Transaction> transactions = transactionRepository.findByUser(user);
+        
+        BigDecimal totalIncome = BigDecimal.ZERO;
+        BigDecimal totalExpense = BigDecimal.ZERO;
+        Map<String, BigDecimal> expenseByCategory = new LinkedHashMap<>();
+        Map<String, BigDecimal> monthlyTrend = new LinkedHashMap<>();
+
+        // 初始化所有類別
+        for (ExpenseCategory category : ExpenseCategory.values()) {
+            expenseByCategory.put(category.name(), BigDecimal.ZERO);
+        }
+
+        for (Transaction t : transactions) {
+            if (t.getType() == TransactionType.INCOME) {
+                totalIncome = totalIncome.add(t.getAmount());
+            } else {
+                totalExpense = totalExpense.add(t.getAmount());
+                // 按類別統計支出
+                expenseByCategory.put(t.getCategory().name(), 
+                    expenseByCategory.get(t.getCategory().name()).add(t.getAmount()));
+            }
+
+            // 按月份統計
+            YearMonth month = YearMonth.from(t.getTransactionDate());
+            String monthKey = month.toString();
+            monthlyTrend.put(monthKey, monthlyTrend.getOrDefault(monthKey, BigDecimal.ZERO).add(t.getAmount()));
+        }
+
+        StatisticsDTO stats = new StatisticsDTO();
+        stats.setTotalIncome(totalIncome);
+        stats.setTotalExpense(totalExpense);
+        stats.setNetIncome(totalIncome.subtract(totalExpense));
+        stats.setExpenseByCategory(expenseByCategory);
+        stats.setMonthlyTrend(monthlyTrend);
+
+        return stats;
+    }
+
+    public StatisticsDTO getStatisticsForMonthYear(String username, int month, int year) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        LocalDateTime startDate = LocalDateTime.of(year, month, 1, 0, 0, 0);
+        LocalDateTime endDate = startDate.plusMonths(1).minusSeconds(1);
+
+        List<Transaction> transactions = transactionRepository.findByUserAndTransactionDateBetween(user, startDate, endDate);
+
+        BigDecimal totalIncome = BigDecimal.ZERO;
+        BigDecimal totalExpense = BigDecimal.ZERO;
+        Map<String, BigDecimal> expenseByCategory = new LinkedHashMap<>();
+
+        // 初始化所有類別
+        for (ExpenseCategory category : ExpenseCategory.values()) {
+            expenseByCategory.put(category.name(), BigDecimal.ZERO);
+        }
+
+        for (Transaction t : transactions) {
+            if (t.getType() == TransactionType.INCOME) {
+                totalIncome = totalIncome.add(t.getAmount());
+            } else {
+                totalExpense = totalExpense.add(t.getAmount());
+                expenseByCategory.put(t.getCategory().name(),
+                    expenseByCategory.get(t.getCategory().name()).add(t.getAmount()));
+            }
+        }
+
+        StatisticsDTO stats = new StatisticsDTO();
+        stats.setTotalIncome(totalIncome);
+        stats.setTotalExpense(totalExpense);
+        stats.setNetIncome(totalIncome.subtract(totalExpense));
+        stats.setExpenseByCategory(expenseByCategory);
+
+        return stats;
     }
 }

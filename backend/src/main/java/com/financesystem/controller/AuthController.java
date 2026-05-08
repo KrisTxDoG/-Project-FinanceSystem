@@ -6,7 +6,11 @@ import com.financesystem.dto.RegisterRequest;
 import com.financesystem.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,6 +28,27 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/currency")
+    public ResponseEntity<Map<String, String>> setPreferredCurrency(@RequestParam String currency) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        authService.updatePreferredCurrency(username, currency);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Preferred currency updated successfully");
+        response.put("currency", currency);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/currency")
+    public ResponseEntity<Map<String, String>> getPreferredCurrency() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String currency = authService.getPreferredCurrency(username);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("currency", currency);
         return ResponseEntity.ok(response);
     }
 }

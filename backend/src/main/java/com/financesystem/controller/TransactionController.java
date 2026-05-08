@@ -1,6 +1,7 @@
 package com.financesystem.controller;
 
 import com.financesystem.dto.TransactionDTO;
+import com.financesystem.dto.StatisticsDTO;
 import com.financesystem.entity.ExpenseCategory;
 import com.financesystem.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,22 @@ public class TransactionController {
     public ResponseEntity<?> deleteTransaction(@PathVariable Long id) {
         transactionService.deleteTransaction(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/statistics/all")
+    public ResponseEntity<StatisticsDTO> getStatistics() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        StatisticsDTO stats = transactionService.getStatistics(username);
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping("/statistics/month")
+    public ResponseEntity<StatisticsDTO> getStatisticsForMonth(
+            @RequestParam int month,
+            @RequestParam int year) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        StatisticsDTO stats = transactionService.getStatisticsForMonthYear(username, month, year);
+        return ResponseEntity.ok(stats);
     }
 
     public static class CategoryDTO {

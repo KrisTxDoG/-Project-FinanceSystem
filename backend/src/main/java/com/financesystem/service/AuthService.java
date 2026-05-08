@@ -35,6 +35,7 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setDisplayName(request.getDisplayName());
+        user.setPreferredCurrency("CNY");
 
         userRepository.save(user);
 
@@ -54,5 +55,20 @@ public class AuthService {
         String token = tokenProvider.generateToken(user.getUsername());
 
         return new AuthResponse(token, user.getUsername(), user.getEmail(), user.getDisplayName());
+    }
+
+    public void updatePreferredCurrency(String username, String currency) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        user.setPreferredCurrency(currency);
+        userRepository.save(user);
+    }
+
+    public String getPreferredCurrency(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        return user.getPreferredCurrency();
     }
 }

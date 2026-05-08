@@ -1,24 +1,54 @@
 <div class="budget-container">
-  <h1>Budget Management</h1>
+  <h1>💳 預算管理</h1>
 
+  <!-- 預算告警部分 -->
+  <div class="alerts-section" *ngIf="budgetAlerts.length > 0">
+    <h2>🚨 預算告警</h2>
+    <div class="alerts-grid">
+      <div *ngFor="let alert of budgetAlerts" class="alert-card" [class.safe]="alert.status === 'safe'" [class.warning]="alert.status === 'warning'" [class.exceeded]="alert.status === 'exceeded'">
+        <div class="alert-header">
+          <h3>{{ alert.category }}</h3>
+          <span class="status-badge" [class]="alert.status">
+            {{ alert.status === 'safe' ? '✅ 安全' : alert.status === 'warning' ? '⚠️ 警告' : '❌ 超支' }}
+          </span>
+        </div>
+        <div class="alert-content">
+          <div class="amount-info">
+            <span>已支出: <strong>¥{{ alert.spent | number: '1.2-2' }}</strong></span>
+            <span>預算: <strong>¥{{ alert.limit | number: '1.2-2' }}</strong></span>
+          </div>
+          <div class="progress-container">
+            <div class="progress-bar" [style.width]="alert.percentage + '%'" [class.warning]="alert.percentage >= 80" [class.exceeded]="alert.percentage >= 100"></div>
+          </div>
+          <div class="progress-text">
+            <span>{{ alert.percentage.toFixed(1) }}% 已使用</span>
+            <span>剩餘: ¥{{ alert.remaining | number: '1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新增預算按鈕 -->
   <button class="btn btn-primary" (click)="toggleForm()">
-    {{ showForm ? 'Cancel' : 'Add Budget' }}
+    {{ showForm ? '❌ 取消' : '➕ 新增預算' }}
   </button>
 
+  <!-- 新增預算表單 -->
   <form [formGroup]="budgetForm" (ngSubmit)="onSubmit()" *ngIf="showForm" class="budget-form">
     <div class="form-group">
-      <label>Category:</label>
+      <label>類別:</label>
       <input
         type="text"
         formControlName="category"
         class="form-control"
         [class.is-invalid]="submitted && f['category'].errors"
-        placeholder="e.g., Food, Transport, Entertainment"
+        placeholder="如: 飲食, 交通, 娛樂"
       />
     </div>
 
     <div class="form-group">
-      <label>Budget Limit:</label>
+      <label>預算限額:</label>
       <input
         type="number"
         formControlName="limit"
@@ -29,21 +59,21 @@
     </div>
 
     <div class="form-group">
-      <label>Period:</label>
+      <label>週期:</label>
       <select
         formControlName="period"
         class="form-control"
         [class.is-invalid]="submitted && f['period'].errors"
       >
-        <option value="DAILY">Daily</option>
-        <option value="WEEKLY">Weekly</option>
-        <option value="MONTHLY">Monthly</option>
-        <option value="YEARLY">Yearly</option>
+        <option value="DAILY">日</option>
+        <option value="WEEKLY">週</option>
+        <option value="MONTHLY">月</option>
+        <option value="YEARLY">年</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label>Description (Optional):</label>
+      <label>描述 (選填):</label>
       <textarea
         formControlName="description"
         class="form-control"
@@ -52,13 +82,15 @@
     </div>
 
     <button type="submit" class="btn btn-primary">
-      {{ editingId ? 'Update' : 'Create' }} Budget
+      {{ editingId ? '更新' : '建立' }} 預算
     </button>
   </form>
 
+  <!-- 預算列表 -->
   <div class="budgets-list">
+    <h2>📋 預算列表</h2>
     <div *ngIf="budgets.length === 0" class="no-data">
-      No budgets created yet
+      尚無預算
     </div>
 
     <div *ngFor="let budget of budgets" class="budget-card">
@@ -68,8 +100,8 @@
       </div>
 
       <div class="budget-limit">
-        <span>Budget Limit:</span>
-        <strong>{{ budget.limit | currency }}</strong>
+        <span>預算限額:</span>
+        <strong>¥{{ budget.limit | number: '1.2-2' }}</strong>
       </div>
 
       <div *ngIf="budget.description" class="budget-description">
@@ -77,8 +109,8 @@
       </div>
 
       <div class="budget-actions">
-        <button (click)="editBudget(budget)" class="btn-small btn-edit">Edit</button>
-        <button (click)="deleteBudget(budget.id)" class="btn-small btn-delete">Delete</button>
+        <button (click)="editBudget(budget)" class="btn-small btn-edit">✏️ 編輯</button>
+        <button (click)="deleteBudget(budget.id)" class="btn-small btn-delete">🗑️ 刪除</button>
       </div>
     </div>
   </div>
