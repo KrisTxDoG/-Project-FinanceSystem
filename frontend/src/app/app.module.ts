@@ -13,6 +13,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { BudgetComponent } from './components/budget/budget.component';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { BudgetComponent } from './components/budget/budget.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    NgChartsModule
+    NgChartsModule,
+    AnalyticsComponent,
+    SettingsComponent
   ],
   providers: [
     {

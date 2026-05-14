@@ -1,0 +1,183 @@
+<div class="settings-container">
+  <div class="settings-header">
+    <h1>⚙️ 用戶設置</h1>
+    <p>管理您的個人資料和偏好設置</p>
+  </div>
+
+  <!-- 消息提示 -->
+  <div *ngIf="message" class="message" [ngClass]="message.type">
+    <span>{{ message.text }}</span>
+  </div>
+
+  <!-- 標籤欄 -->
+  <div class="tabs">
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'profile'"
+      (click)="switchTab('profile')">
+      👤 個人資料
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'preferences'"
+      (click)="switchTab('preferences')">
+      🎨 偏好設置
+    </button>
+    <button 
+      class="tab-btn" 
+      [class.active]="activeTab === 'password'"
+      (click)="switchTab('password')">
+      🔐 修改密碼
+    </button>
+  </div>
+
+  <!-- 個人資料標籤 -->
+  <div *ngIf="activeTab === 'profile'" class="tab-content">
+    <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+      <div class="form-group">
+        <label for="displayName">顯示名稱</label>
+        <input
+          id="displayName"
+          type="text"
+          formControlName="displayName"
+          placeholder="輸入您的顯示名稱"
+          [disabled]="loading">
+        <span class="error" *ngIf="profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched">
+          顯示名稱至少需要2個字符
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="email">電子郵件</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="輸入您的電子郵件"
+          [disabled]="loading">
+        <span class="error" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+          請輸入有效的電子郵件地址
+        </span>
+      </div>
+
+      <div class="form-group info">
+        <label>用戶名</label>
+        <p class="info-text">{{ userProfile?.username }}</p>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="loading || profileForm.invalid">
+        <span *ngIf="!loading">✅ 保存變更</span>
+        <span *ngIf="loading">⏳ 正在保存...</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- 偏好設置標籤 -->
+  <div *ngIf="activeTab === 'preferences'" class="tab-content">
+    <form [formGroup]="preferencesForm" (ngSubmit)="updatePreferences()">
+      <div class="form-group">
+        <label for="currency">優先貨幣</label>
+        <select id="currency" formControlName="preferredCurrency" [disabled]="loading">
+          <option *ngFor="let curr of currencies" [value]="curr">
+            {{ curr }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="theme">主題</label>
+        <select id="theme" formControlName="theme" [disabled]="loading">
+          <option *ngFor="let t of themes" [value]="t.value">
+            {{ t.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="language">語言</label>
+        <select id="language" formControlName="language" [disabled]="loading">
+          <option *ngFor="let lang of languages" [value]="lang.value">
+            {{ lang.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group checkbox">
+        <label>
+          <input 
+            type="checkbox" 
+            formControlName="emailNotifications"
+            [disabled]="loading">
+          📧 接收電子郵件通知
+        </label>
+      </div>
+
+      <div class="form-group checkbox">
+        <label>
+          <input 
+            type="checkbox" 
+            formControlName="budgetAlerts"
+            [disabled]="loading">
+          🚨 接收預算告警
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="loading">
+        <span *ngIf="!loading">✅ 保存偏好設置</span>
+        <span *ngIf="loading">⏳ 正在保存...</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- 修改密碼標籤 -->
+  <div *ngIf="activeTab === 'password'" class="tab-content">
+    <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+      <div class="form-group">
+        <label for="oldPassword">當前密碼</label>
+        <input
+          id="oldPassword"
+          type="password"
+          formControlName="oldPassword"
+          placeholder="輸入當前密碼"
+          [disabled]="loading">
+        <span class="error" *ngIf="passwordForm.get('oldPassword')?.invalid && passwordForm.get('oldPassword')?.touched">
+          密碼至少需要6個字符
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="newPassword">新密碼</label>
+        <input
+          id="newPassword"
+          type="password"
+          formControlName="newPassword"
+          placeholder="輸入新密碼"
+          [disabled]="loading">
+        <span class="error" *ngIf="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched">
+          密碼至少需要6個字符
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">確認新密碼</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="確認新密碼"
+          [disabled]="loading">
+        <span class="error" *ngIf="passwordForm.get('confirmPassword')?.invalid && passwordForm.get('confirmPassword')?.touched">
+          密碼至少需要6個字符
+        </span>
+        <span class="error" *ngIf="passwordForm.errors?.['passwordMismatch']">
+          兩次輸入的密碼不一致
+        </span>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="loading || passwordForm.invalid">
+        <span *ngIf="!loading">🔐 更改密碼</span>
+        <span *ngIf="loading">⏳ 正在更改...</span>
+      </button>
+    </form>
+  </div>
+</div>
