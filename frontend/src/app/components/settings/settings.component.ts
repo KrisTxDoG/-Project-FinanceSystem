@@ -161,7 +161,9 @@ export class SettingsComponent implements OnInit {
 
     this.loading = true;
     this.preferencesService.updateUserPreferences(this.preferencesForm.value).subscribe({
-      next: () => {
+      next: (updatedPreferences) => {
+        // 應用主題變化
+        this.applyTheme(updatedPreferences.theme);
         this.showMessage('success', '偏好設置已更新');
         this.loading = false;
       },
@@ -172,6 +174,18 @@ export class SettingsComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  /**
+   * 應用主題
+   */
+  private applyTheme(theme: string): void {
+    const htmlElement = document.documentElement;
+    if (theme === 'dark') {
+      htmlElement.classList.add('dark-mode');
+    } else {
+      htmlElement.classList.remove('dark-mode');
+    }
   }
 
   /**

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { CurrencyService, Currency } from './services/currency.service';
+import { PreferencesService } from './services/preferences.service';
 
 @Component({
   selector: 'app-root',
@@ -12,19 +13,32 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   currencies: Currency[] = [];
   selectedCurrency = 'CNY';
+  isDarkMode = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private currencyService: CurrencyService
-  ) {}
+    private currencyService: CurrencyService,
+    private preferencesService: PreferencesService
+  ) {
+    this.applyTheme();
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
     if (this.isLoggedIn) {
       this.loadCurrencies();
       this.loadPreferredCurrency();
+      this.loadTheme();
     }
+
+    // 監聽偏好設置變化
+    this.preferencesService.userPreferences$.subscribe(preferences => {
+      if (preferences) {
+        this.isDarkMode = preferences.theme === 'dark';
+        this.applyTheme();
+      }
+    });
   }
 
   loadCurrencies(): void {
@@ -43,6 +57,25 @@ export class AppComponent implements OnInit {
       },
       error: (err) => console.error('Failed to load preferred currency', err)
     });
+  }
+
+  loadTheme(): void {
+    this.preferencesService.getUserPreferences().subscribe({
+      next: (preferences) => {
+        this.isDarkMode = preferences.theme === 'dark';
+        this.applyTheme();
+      },
+      error: (err) => console.error('Failed to load preferences', err)
+    });
+  }
+
+  applyTheme(): void {
+    const htmlElement = document.documentElement;
+    if (this.isDarkMode) {
+      htmlElement.classList.add('dark-mode');
+    } else {
+      htmlElement.classList.remove('dark-mode');
+    }
   }
 
   onCurrencyChange(): void {
