@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    @Value("${jwt.secret:MyVerySecureSecretKeyForJWTTokenGenerationAndValidation1234567890ABCDE123456789ssijiodsjfiojsiaodfsjdifasieji32383924jfidsfjisj}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
 
     @Value("${jwt.expiration:86400000}")

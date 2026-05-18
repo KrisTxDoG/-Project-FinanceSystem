@@ -20,8 +20,8 @@ export interface ConversionResult {
   providedIn: 'root'
 })
 export class CurrencyService {
-  private apiUrl = 'http://localhost:8080/api/currencies';
-  private authApiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = '/api/currencies';
+  private authApiUrl = '/api/auth';
 
   constructor(private http: HttpClient) { }
 

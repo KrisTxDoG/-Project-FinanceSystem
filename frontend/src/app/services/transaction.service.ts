@@ -13,7 +13,7 @@ export interface CategoryDTO {
   providedIn: 'root'
 })
 export class TransactionService {
-  private apiUrl = 'http://localhost:8080/api/transactions';
+  private apiUrl = '/api/transactions';
 
   constructor(private http: HttpClient) {}
 

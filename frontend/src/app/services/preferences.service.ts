@@ -28,7 +28,7 @@ export interface ChangePasswordRequest {
   providedIn: 'root'
 })
 export class PreferencesService {
-  private apiUrl = 'http://localhost:8080/api/settings';
+  private apiUrl = '/api/settings';
   private userPreferencesSubject = new BehaviorSubject<UserPreferences | null>(null);
   public userPreferences$ = this.userPreferencesSubject.asObservable();
 

@@ -15,7 +15,7 @@ export interface BudgetAlert {
   providedIn: 'root'
 })
 export class BudgetAlertService {
-  private apiUrl = 'http://localhost:8080/api/budgets';
+  private apiUrl = '/api/budgets';
 
   constructor(private http: HttpClient) { }
 

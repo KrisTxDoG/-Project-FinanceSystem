@@ -17,6 +17,18 @@
 
 ## 快速開始
 
+### Docker
+```bash
+docker compose up --build
+```
+
+啟動後：
+- 前端：http://localhost:4200
+- 後端 API：http://localhost:8081
+- MySQL：localhost:3306
+
+Docker Compose 會啟動 Angular + Nginx、Spring Boot、MySQL 8。請先複製 `.env.example` 為 `.env`，再填入自己的資料庫密碼與 JWT secret。
+
 ### 後端
 ```bash
 cd backend

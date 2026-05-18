@@ -14,7 +14,7 @@ export interface StatisticsData {
   providedIn: 'root'
 })
 export class AnalyticsService {
-  private apiUrl = 'http://localhost:8080/api/transactions';
+  private apiUrl = '/api/transactions';
 
   constructor(private http: HttpClient) { }
 
