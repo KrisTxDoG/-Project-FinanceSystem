@@ -53,7 +53,6 @@ backend/src/main/resources/application-*.yml
 .mvn/wrapper/maven-wrapper.properties
 
 # npm
-package-lock.json
 yarn.lock
 
 # IDE 開發工具
